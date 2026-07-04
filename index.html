@@ -3,99 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tanisha Saxena | Portfolio</title>
-
+<title>To-Do List App</title>
 <link rel="stylesheet" href="style.css">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
 </head>
 
 <body>
 
-<header class="hero">
+<div class="container">
 
-<nav class="navbar">
+<h1>📝 To-Do List</h1>
 
-<h2 class="logo">Tanisha.</h2>
+<div class="input-section">
 
-<div class="menu">
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="projects.html">Projects</a>
-<a href="contact.html">Contact</a>
-</div>
+<input
+type="text"
+id="taskInput"
+placeholder="Enter a new task">
 
-</nav>
-
-<div class="hero-content">
-
-<h1>Hello, I'm <span>Tanisha Saxena</span></h1>
-
-<p>
-First Year B.Tech CSE (Cyber Security) Student passionate about
-Programming, Web Development, Problem Solving and Cyber Security.
-</p>
-
-<a href="projects.html" class="btn">
-View My Projects
-</a>
+<button id="addBtn">
+Add
+</button>
 
 </div>
 
-</header>
+<div class="filters">
 
-<main class="container">
+<button class="filter active" data-filter="all">
+All
+</button>
 
-<section class="card">
+<button class="filter" data-filter="active">
+Active
+</button>
 
-<h2>About Me</h2>
-
-<p>
-
-I am currently pursuing B.Tech in Computer Science with
-Specialization in Cyber Security from SATI Vidisha.
-
-I enjoy learning new technologies and continuously improving my
-coding skills.
-
-</p>
-
-</section>
-
-<section class="card">
-
-<h2>Skills</h2>
-
-<div class="skills">
-
-<span>Python</span>
-
-<span>OOP</span>
-
-<span>Data Structures</span>
-
-<span>HTML</span>
-
-<span>CSS</span>
-
-<span>Git</span>
-
-<span>GitHub</span>
+<button class="filter" data-filter="completed">
+Completed
+</button>
 
 </div>
 
-</section>
+<ul id="taskList">
 
-</main>
+</ul>
 
-<footer>
+</div>
 
-<p>© 2026 Tanisha Saxena | All Rights Reserved</p>
-
-</footer>
+<script src="script.js"></script>
 
 </body>
 </html>
