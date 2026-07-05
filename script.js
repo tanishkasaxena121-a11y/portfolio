@@ -1,111 +1,46 @@
-const taskInput = document.getElementById("taskInput");
-const addBtn = document.getElementById("addBtn");
-const taskList = document.getElementById("taskList");
-const filterBtns = document.querySelectorAll(".filter");
+const apiKey = "9fc3ad6ae85e71809ca3569e30a96cba";
 
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-let currentFilter = "all";
+async function getWeather() {
 
-function saveTasks() {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-}
+    const city = document.getElementById("city").value;
 
-function renderTasks() {
-    taskList.innerHTML = "";
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-    let filteredTasks = tasks.filter(task => {
-        if (currentFilter === "active") return !task.completed;
-        if (currentFilter === "completed") return task.completed;
-        return true;
-    });
+    try {
 
-    filteredTasks.forEach((task, index) => {
+        const response = await fetch(url);
 
-        const li = document.createElement("li");
-        li.className = task.completed ? "task completed" : "task";
+        if (!response.ok) {
+            throw new Error("City not found!");
+        }
 
-        li.innerHTML = `
-            <span>${task.text}</span>
+        const data = await response.json();
 
-            <div class="actions">
+        document.getElementById("cityName").innerText =
+            data.name + ", " + data.sys.country;
 
-                <button class="complete">
-                ✓
-                </button>
+        document.getElementById("temp").innerText =
+            data.main.temp + " °C";
 
-                <button class="edit">
-                Edit
-                </button>
+        document.getElementById("desc").innerText =
+            data.weather[0].description;
 
-                <button class="delete">
-                Delete
-                </button>
+        document.getElementById("humidity").innerText =
+            data.main.humidity;
 
-            </div>
-        `;
+        document.getElementById("wind").innerText =
+            data.wind.speed;
 
-        li.querySelector(".complete").onclick = () => {
-            task.completed = !task.completed;
-            saveTasks();
-            renderTasks();
-        };
+        document.getElementById("icon").src =
+            `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
 
-        li.querySelector(".edit").onclick = () => {
-            const newText = prompt("Edit Task", task.text);
+        document.getElementById("error").innerText = "";
 
-            if (newText && newText.trim() !== "") {
-                task.text = newText.trim();
-                saveTasks();
-                renderTasks();
-            }
-        };
+    } catch (error) {
 
-        li.querySelector(".delete").onclick = () => {
-            tasks.splice(index, 1);
-            saveTasks();
-            renderTasks();
-        };
+        document.getElementById("error").innerText =
+            "Invalid city name. Please try again.";
 
-        taskList.appendChild(li);
-
-    });
-}
-
-addBtn.onclick = () => {
-
-    const text = taskInput.value.trim();
-
-    if (text === "") {
-        alert("Please enter a task");
-        return;
     }
 
-    tasks.push({
-        text: text,
-        completed: false
-    });
-
-    taskInput.value = "";
-
-    saveTasks();
-    renderTasks();
-
-};
-
-filterBtns.forEach(btn => {
-
-    btn.onclick = () => {
-
-        filterBtns.forEach(b => b.classList.remove("active"));
-
-        btn.classList.add("active");
-
-        currentFilter = btn.dataset.filter;
-
-        renderTasks();
-
-    };
-
-});
-
-renderTasks();
+}
